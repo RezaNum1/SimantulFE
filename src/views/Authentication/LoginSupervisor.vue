@@ -24,7 +24,7 @@
             <div class="text-start">
                 <label for="">Password</label>
             </div>
-            <input type="text" v-model="model.auth.password" class="form-control"/>
+            <input type="password" v-model="model.auth.password" class="form-control"/>
           </div>
           <button type="button" @click="onTapLogin" class="btn btn-danger mt-4">Masuk</button>
         </div>
@@ -40,8 +40,8 @@
         return {
             model: {
                 auth: {
-                    email: 'maharani1@ojk.com',
-                    password: 'test1234'
+                    email: '',
+                    password: ''
                 }
             }
         }

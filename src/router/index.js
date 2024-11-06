@@ -11,6 +11,7 @@ import OnboardingView from '../views/Authentication/Onboarding.vue'
 import LoginSupervisor from '../views/Authentication/LoginSupervisor.vue'
 import Findings from '../views/Dashboard/FindingsView.vue'
 import DashboardAdminView from '../views/Dashboard/DashboardAdminView.vue'
+import DashboardBankView from '../views/Dashboard/DashboardBankView.vue'
 import UploadDocument from '../views/Report/UploadDocument.vue'
 
 const router = createRouter({
@@ -85,7 +86,12 @@ const router = createRouter({
       path: '/report/:id/document',
       name: 'uploadDocument',
       component: UploadDocument
-    }
+    },
+    {
+      path: '/dashboard/bank',
+      name: 'adminBank',
+      component: DashboardBankView
+    },
   ]
 })
 

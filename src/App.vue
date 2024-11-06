@@ -40,7 +40,12 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <div class="sidenav-btn-wrapper" v-show="userType == '3'">
       <img :src="dashboardLogo" alt="Image Description" class="sidenav-btn-icon">
-      <RouterLink class="sidenav-btn-text" to="/superadmin">Dashboard</RouterLink>
+      <RouterLink class="sidenav-btn-text" to="/dashboard/admin">Dashboard</RouterLink>
+    </div>
+
+    <div class="sidenav-btn-wrapper" v-show="userType == '3'">
+      <img :src="dashboardLogo" alt="Image Description" class="sidenav-btn-icon">
+      <RouterLink class="sidenav-btn-text" to="/dashboard/bank">Kelola Bank</RouterLink>
     </div>
 
     <div class="sidenav-btn-wrapper" v-show="userType != '3'">

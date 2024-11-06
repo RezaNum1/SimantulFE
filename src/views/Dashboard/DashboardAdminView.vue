@@ -329,7 +329,6 @@ export default {
                 password: this.createForm.password,
                 bankId: this.createForm.bankId
             }
-            console.log(data)
             const _ = await axiosInstance.post('/api/user', data)
             location.reload()
             } catch (error) {
