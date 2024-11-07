@@ -65,7 +65,7 @@
                                 </button>
                             </td>
                             <td>
-                                <button type="button" @click="onTapDelete" class="btn btn-reject">Hapus</button>
+                                <button type="button" @click="openDeleteModal(user.id)" class="btn btn-reject">Hapus</button>
                                 <button type="button" @click="onTapEdit" class="btn btn-accept">Edit</button>
                             </td>     
                         </tr>
@@ -233,6 +233,27 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal -->
+        <div v-if="showDeleteModal" class="modal d-block" tabindex="-1" @click.self="closeDeleteModal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content text-center">
+                    <div class="modal-header justify-content-center">
+                        <button type="button" class="btn-close" @click="closeDeleteModal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img :src="askIconUrl" alt="OJK Logo" class="logo mb-3" />
+                        <p style="font-size: 20px; font-weight: 600">Apakah Anda yakin ingin menghapus akses pengguna?</p>
+                        <p style="font-size: 14px; font-weight: 500; color: #666666;">Tindakan ini akan menghapus semua akses dan data terkait pengguna. Pastikan Anda sudah memeriksa sebelum melanjutkan.</p>
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn btn-outline-danger" style="width: 223px; height: 40px; color: #A90704; border-color: #A90704;" @click="deleteUser">Hapus</button>
+                        <button type="button" class="btn btn-danger" style="width: 223px; height: 40px; background-color: #A90704" @click="closeDeleteModal">Batalkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -242,6 +263,9 @@ import axiosInstance from '../../axiosInstance';
 export default {
     name: 'report',
     computed: {
+        askIconUrl() {
+            return new URL('@/assets/images/Icon_ask.svg', import.meta.url).href;
+        },
         openIconUrl() {
             return new URL('@/assets/images/Icon_Open.svg', import.meta.url).href;
         },
@@ -268,7 +292,9 @@ export default {
     },
     data(){
         return {
+            selectedUserId: '',
             showModal: false,
+            showDeleteModal: false,
             searchQuery: "",
             nameQuery: "",
             statusQuery: "",
@@ -335,8 +361,28 @@ export default {
                 console.log('Error fetching data:', error)
             }
         },
+        async deleteUser() {
+            try {
+                const _ = await axiosInstance.delete(`/api/user/${this.selectedUserId}`)
+                location.reload()
+            } catch (error) {
+                console.log('Error fetching data:', error)
+            }
+        },
         closeModal() {
             this.showModal = false;
+            this.selectedUserId = ''
+        },
+        openModal() {
+            this.showModal = true;
+        },
+        closeDeleteModal() {
+            this.selectedUserId = ''
+            this.showDeleteModal = false;
+        },
+        openDeleteModal(id) {
+            this.selectedUserId = id
+            this.showDeleteModal = true;
         },
         onTapAddUser() {
             this.createForm = {
@@ -352,13 +398,12 @@ export default {
             this.showModal = true;
         },
         onTapEdit() {
-            this.showModal = true;
-        },
-        onTapDelete() {
-            this.$router.push('/report/create')
+            // this.showModal = true;
+            alert("Update Button Clicked!!");
         },
         goToViewForm(id) {
-            this.$router.push(`/report/${id}/readForm`)
+            alert("Detail View Button Clicked!!");
+            // this.$router.push(`/report/${id}/readForm`)
         },
     }
 }
@@ -442,6 +487,7 @@ color: white;
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 40px;
+    margin-top: 80px;
 }
 
 .dashboard-container-fluid {

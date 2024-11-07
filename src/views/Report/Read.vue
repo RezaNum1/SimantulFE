@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 
-                <p class="finding-section-text">Temuan dari hasil pengawasan dan rencana tindak lanjutnya dapat dilihat pada rincian berikut.</p>
+                <p class="finding-section-text-top">Temuan dari hasil pengawasan dan rencana tindak lanjutnya dapat dilihat pada rincian berikut.</p>
 
                 <div class="row">
                         <div class="col-sm-9">
@@ -30,6 +30,15 @@
                                 <div class="card-body">
                                     <h5 class="card-title" style="font-size: 16; font-weight: 700;">Poin Temuan</h5>
                                     <p style="font-size: 14px; font-weight: 400;">{{ model.report.poinTemuan }}</p>
+
+                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Rincian Temuan</h5>
+                                    <p style="font-size: 14px; font-weight: 400;">{{ model.report.rincianTemuan }}</p>
+
+                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Dampak/Risiko</h5>
+                                    <p style="font-size: 14px; font-weight: 400;">{{ model.report.jenisTemuan }}</p>
+
+                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Rekomendasi</h5>
+                                    <p style="font-size: 14px; font-weight: 400;">{{ model.report.rencanaTindakLanjut }}</p>
                                 </div>
                             </div>
                         </div>
@@ -37,9 +46,9 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title" style="font-size: 16; font-weight: 700;">PIC Pengawas</h5>
-                                    <p style="font-size: 16; font-weight: 400;">Lolly Vadel</p>
-                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Target Penyelesaian</h5>
-                                    <p class="card-text">{{ formatDate(model.report.targetPenyelesaian) }}</p>
+                                    <p style="font-size: 16; font-weight: 400;">{{  model.report.supervisor.Name  }}</p>
+                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Judul Temuan</h5>
+                                    <p class="card-text">{{ model.report.judulTemuan }}</p>
                                     <!-- <a href="#" class="btn btn-danger">Unduh Dokumen</a> -->
                                     <div v-show="model.report.dokumenTemuan != ''">
                                         <h5 class="card-title" style="font-size: 16; font-weight: 700;">Dokumen</h5>
@@ -49,66 +58,94 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="card" style="background-color: #FFE9E9; border-color: #FFE9E9; margin-top: 16px;">
-                        <div class="card-body">
-                            <h5 class="card-title" style="font-size: 16; font-weight: 700;">Rencana Tindak Lanjut Pengawas</h5>
-                            <p style="font-size: 14px; font-weight: 400;">{{ model.report.rencanaTindakLanjut }}</p>
-                        </div>
-                    </div>
             </div>
         </div>
     </div>
 
-    <div class="dashboard-container-fluid">
+    <div class="dashboard-container-fluid-bottom" v-show="model.report.status > 1">
         <div>
             <div class="dashboard-section-title">
-                <h4 class="">Formulir Tindak Lanjut</h4>
+                <h4 class="">Tindak Lanjut</h4>
             </div>
             <div class="dashboard-container-form">
-                <p class="dashboard-title-form" style="margin-top: 32px;">Informasi Dasar</p>
-                <p class="finding-section-text">Berikut adalah rencana tindak lanjut yang telah disusun sebelumnya.</p>
+                <p class="finding-section-text">Tindak lanjut bank dapat dilihat pada rincian berikut.</p>
 
-                <div class="row">
-                        <div class="col-sm-9">
-                            <div class="card" style="background-color: #FFE9E9; border-color: #FFE9E9">
+                <div class="card" style="background-color: #FFE9E9; border-color: #FFE9E9">
                                 <div class="card-body">
                                     <h5 class="card-title" style="font-size: 16; font-weight: 700;">Poin Tindak Lanjut</h5>
                                     <p style="font-size: 14px; font-weight: 400;">{{ model.report.poinTindakLanjut }}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="card">
-                                <div class="card-body">
+
+                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Komitmen Tindak Lanjut</h5>
+                                    <p style="font-size: 14px; font-weight: 400;">{{ model.report.komitmenTindakLanjut }}</p>
+
                                     <h5 class="card-title" style="font-size: 16; font-weight: 700;">Target Penyelesaian</h5>
                                     <p style="font-size: 16; font-weight: 400;">{{ formatDate(model.report.targetPenyelesaian) }}</p>
-                                    <h5 class="card-title" style="font-size: 16; font-weight: 700;">Tanggal Pembuatan</h5>
-                                    <p class="card-text" style="font-size: 16; font-weight: 400;">{{ formatDate(model.report.waktuPenyelesaian) }}</p>
-                                    <!-- <a href="#" class="btn btn-danger">Unduh Dokumen</a> -->
-                                    <div v-show="model.report.dokumenTindakLanjut != ''">
-                                        <h5 class="card-title" style="font-size: 16; font-weight: 700;">Dokumen</h5>
-                                        <p class="card-text">{{ model.report.dokumenTindakLanjut }}</p>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="card" style="background-color: #FFE9E9; border-color: #FFE9E9; margin-top: 16px;">
-                        <div class="card-body">
-                            <h5 class="card-title" style="font-size: 16; font-weight: 700;">Komitmen Tindak Lanjut</h5>
-                            <p style="font-size: 14px; font-weight: 400;">{{ model.report.komitmenTindakLanjut }}</p>
-                        </div>
-                    </div>
             </div>
         </div>
     </div>
 
+    <div class="dashboard-container-fluid-doc" v-if="model.report.status >= 5 && model.report.status != 99">
+        <div>
+            <div class="dashboard-section-title">
+                <h4 class="">Dokumen Hasil Pemeriksaan</h4>
+            </div>
+            <div class="dashboard-container-form">
+                <label for="searchQuery" class="form-label" style="margin-top: 32px;">Dokumen</label>
+                <label for="searchQuery" class="form-label" style="margin-top: 32px;">{{ model.report.dokumenTindakLanjut }}</label>
+            </div>
+        </div>
+    </div>
+
+        <div class="dashboard-container-fluid-table" v-show="model.rejectedHistories.length > 0" style="margin-bottom: 100px;">
+        <div>
+            <div class="dashboard-section-title">
+                <h4 class="">History Penolakan</h4>
+            </div>
+            <div class="dashboard-container-form" style="margin-top: 32px;">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table" style="text-align: left;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Deskripsi Penolakan</th>
+                                    <th>Otoritas</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="model.rejectedHistories.length > 0">
+                                <tr v-for="(history, index) in model.rejectedHistories" :key="index">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ history.description }}</td>
+                                    <td>{{ getAuthority(history.rejectedStep) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
 <style scoped>
+.dashboard-container-fluid-doc {
+background-color: #ffffff;
+min-height: 100px;
+border-radius: 8px;
+margin-top: 36px;
+padding-bottom: 32px;
+margin-bottom: 36px;
+}
+
+.dashboard-container-fluid-table {
+background-color: #ffffff;
+min-height: 200px;
+border-radius: 8px;
+padding-bottom: 32px;
+}
 
 .rounded-label-in-progress {
   background-color: #e0f2fe; /* Light blue */
@@ -128,9 +165,18 @@
   cursor: pointer;
 }
 
-.rounded-label-pending {
-  background-color: #FFE9E9; /* Light blue */
-  color: #A90704; /* Dark blue */
+.rounded-label-collecting {
+  background-color: #CFFFC6; /* Light blue */
+  color: #1C5B10; /* Dark blue */
+  border: none;
+  border-radius: 20px; /* Adjust radius as needed */
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.rounded-label-verification {
+  background-color: #CFFFC6; /* Light blue */
+  color: #1C5B10; /* Dark blue */
   border: none;
   border-radius: 20px; /* Adjust radius as needed */
   padding: 5px 15px;
@@ -145,6 +191,26 @@
   padding: 5px 15px;
   cursor: pointer;
 }
+
+.rounded-label-reject {
+  background-color: #FFE9E9; /* Light blue */
+  color: #A90704; /* Dark blue */
+  border: none;
+  border-radius: 20px; /* Adjust radius as needed */
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.rounded-label-pending {
+  background-color: #FFE9E9; /* Light blue */
+  color: #A90704; /* Dark blue */
+  border: none;
+  border-radius: 20px; /* Adjust radius as needed */
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+
 
 .modal.d-block {
 display: block; /* Ensures modal is visible when v-if is true */
@@ -188,9 +254,19 @@ padding-right: 24px;
 .dashboard-container-fluid {
 background-color: #ffffff;
 margin-bottom: 36px;
-height: 565px;
+min-height: 490px;
 border-radius: 8px;
+padding-bottom: 32px;
 }
+
+.dashboard-container-fluid-bottom {
+background-color: #ffffff;
+margin-bottom: 36px;
+min-height: 300px;
+border-radius: 8px;
+padding-bottom: 32px;
+}
+
 
 .dashboard-section-title {
 font-size: 20px;
@@ -203,9 +279,16 @@ padding-left: 24px;
 height: 63px;
 }
 
+.finding-section-text-top {
+font-size: 16px;
+font-weight: 400;
+}
+
 .finding-section-text {
 font-size: 16px;
 font-weight: 400;
+margin-bottom: 22px;
+margin-top: 32px;
 }
 
 .modal.d-block {
@@ -250,6 +333,7 @@ data(){
                 alasan: null,
             },
             banks: [],
+            rejectedHistories: []
         }
     }
 },
@@ -266,7 +350,13 @@ methods: {
     async getReport(reportId) {
         try {
             const response = await axiosInstance.get(`/api/report/${reportId}`)
+            const histories = await axiosInstance.get(`/api/reason/all/${reportId}`)
             this.model.report = response.data.data
+            if (this.userType == 2) {
+                this.model.rejectedHistories = histories.data.data.filter(history => (history.rejectedStep == 2 || history.rejectedStep == 3 || history.rejectedStep == 7 || history.rejectedStep == 8) )
+            } else {
+                this.model.rejectedHistories = histories.data.data
+            }
             console.log(this.model.report)
         } catch (error) {
             console.log('Error fetching data:', error)
@@ -284,6 +374,24 @@ methods: {
             // Return the formatted date
             return `${day}/${month}/${year}`;
     },
+    getAuthority(step) {
+        if (this.userType == 2) {
+            return "Pengawas"
+        } else {
+            switch (step) {
+                case 0:
+                case 3:
+                case 5:
+                case 8:
+                    return "Reviewer"
+                case 2:
+                case 6:
+                    return "Pengawas"
+                default:
+                    "-"
+            }
+        }
+        },
     getStatusText(status) {
             console.log(this.userType)
             console.log(status)
@@ -305,7 +413,7 @@ methods: {
                         case 9:
                             return 'Selesai';
                         case 99:
-                            return 'Reject';
+                            return 'Rejects';
                         case 98:
                             return 'Pending';
                         default:
@@ -329,14 +437,14 @@ methods: {
                         case 9:
                             return 'Selesai';
                         case 98:
-                            return 'Reject';
+                            return 'Pending';
                         default:
                             return 'Belum Review';
                     }
             }
         },
         getLabelClass(status) {
-            if (this.userType == 1 || this.userType == 3 || this.userType == 99) {
+            if (this.userType == 1 || this.userType == 99) {
                 switch (status) {
                         case 0, 1:
                             return 'rounded-label-in-progress';

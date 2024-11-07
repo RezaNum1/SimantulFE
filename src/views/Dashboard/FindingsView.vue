@@ -404,6 +404,7 @@ export default {
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 40px;
+    margin-top: 80px;
 }
 
 .dashboard-container-fluid {

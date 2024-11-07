@@ -28,8 +28,8 @@ const router = createRouter({
       component: OnboardingView
     },
     {
-      path: '/login/supervisor',
-      name: 'loginSupervisor',
+      path: '/login',
+      name: 'login',
       component: LoginSupervisor
     },
     {

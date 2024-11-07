@@ -145,7 +145,7 @@
                                         </RouterLink>
                                     </div>
                                     
-                                    <div v-if="report.status == 2 || report.status == 4 || report.status == 5 || report.status == 7 || report.status == 9 || report.status == 99">
+                                    <div v-if="report.status == 2 || report.status == 3 || report.status == 4 || report.status == 5 || report.status == 7 || report.status == 8 || report.status == 9 || report.status == 99">
                                         <button type="button" class="btn" @click="goToViewForm(report.id, report.status)">
                                             Lihat
                                             <img :src="openIconUrl" alt="OJK Logo" class="logo" />
@@ -201,6 +201,9 @@ export default {
         userType() {
             return localStorage.getItem('userType')
         },
+        id() {
+            return localStorage.getItem('id')
+        },
         filteredReports() {
         return this.reports.filter(report => {
             // Adjust fields based on what you want to search by
@@ -240,8 +243,18 @@ export default {
     methods: {
         async getReports() {
             try {
-                const response = await axiosInstance.get('/api/report')
-                console.log(response.data.data)
+                let response;
+                console.log('data', this.userType, this.id)
+                if (this.userType == 1) {
+                    response = await axiosInstance.get(`/api/report/supervisor/${this.id}`)
+                } else if (this.userType == 99) {
+                    response = await axiosInstance.get(`/api/report/leader/${this.id}`)
+                } else if (this.userType == 2){
+                    response = await axiosInstance.get(`/api/report/bank/${this.id}`)
+                } else {
+                    response = await axiosInstance.get('/api/report')
+                }
+
                 if (this.userType == 2) {
                     this.reports = response.data.data.filter(report => (report.status > 0 && report.status != 99) || (report.status > 0 && report.prevStatus > 1))
                 } else {
@@ -311,9 +324,7 @@ export default {
             this.$router.push('/report/create')
         },
         goToViewForm(id, reportStatus) {
-            if (reportStatus == 1) {
-                this.$router.push(`/report/${id}/readForm`)
-            } else if (this.userType == 2 && reportStatus == 98) {
+             if (this.userType == 2 && reportStatus == 98) {
                 this.$router.push(`/report/${id}/followup`)
             } else if (this.userType == 1 && reportStatus == 99) {
                 this.$router.push(`/report/${id}/edit`)
@@ -463,6 +474,7 @@ export default {
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 40px;
+    margin-top: 80px;
 }
 
 .dashboard-container-fluid {

@@ -83,8 +83,6 @@
             </div>
         </div>
 
-
-
         <div class="dashboard-container-fluid-2">
             <div>
                 <div class="dashboard-section-title">
@@ -115,9 +113,7 @@
                     <label for="floatingTextarea2" style="margin-bottom: 4px;">Rekomendasi (opsional)</label>
                     <textarea class="form-control" v-model="model.report.rencanaTindakLanjut" placeholder="" id="floatingTextarea2" style="height: 110px; margin-bottom: 20px"></textarea>
 
-                    <div class="d-flex h-100 flex-column" style="margin-top: 20px;">
-                        <div class="row flex-fill d-flex">
-                            <div class="col-sm text-start d-flex flex-column align-items-start">
+                    <div class="col-sm text-start d-flex flex-column align-items-start" style="margin-bottom: 20px;">
                                 <label for="searchQuery" class="form-label">Target Penyelesaian</label>
                                 <input
                                     v-model="model.report.targetPenyelesaianInput"
@@ -127,18 +123,6 @@
                                     class="form-control"
                                 />
                             </div>
-
-                            <div class="col-sm text-start d-flex flex-column align-items-start">
-                                <label for="searchQuery" class="form-label">Status</label>
-                                <select class="form-select" style="margin-bottom: 20px;" v-model="model.report.statusInput">
-                                    <option value="1">Dalam Proses</option>
-                                    <option value="2">Belum Review</option>
-                                    <option value="99">Pending</option>
-                                    <option value="3">Selesai</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
                     <label for="floatingTextarea2" style="margin-bottom: 4px;">Pemeriksa</label>
                     <select class="form-select" v-model="model.report.leaderID">
@@ -150,7 +134,6 @@
             </div>
         </div>
         <button type="button" @click="openModal" class="btn btn-submit" style="margin-top: 0px; margin-bottom: 100px; height: 40px;width: 141px;border-radius: 4px;">Kirim</button>
-        
 
 
         <!-- Modal -->
@@ -162,12 +145,12 @@
                     </div>
                     <div class="modal-body">
                         <img :src="askIconUrl" alt="OJK Logo" class="logo mb-3" />
-                        <p style="font-size: 20px; font-weight: 600">Apakah Anda yakin ingin menyetujui tindak lanjut dari Bank?</p>
-                        <p style="font-size: 14px; font-weight: 500; color: #666666;">Pastikan rencana tindak lanjut telah sesuai dengan kebutuhan dan standar yang ditetapkan.</p>
+                        <p style="font-size: 20px; font-weight: 600">Apakah Anda yakin semua informasi yang telah diinput sudah benar?</p>
+                        <p style="font-size: 14px; font-weight: 500; color: #666666;">Pastikan data telah sesuai sebelum mengirimkannya.</p>
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn btn-outline-danger" style="width: 223px; height: 40px; color: #A90704; border-color: #A90704;" @click="closeModal">Kembali</button>
-                        <button type="button" class="btn btn-danger" style="width: 223px; height: 40px; background-color: #A90704" @click="createReport">Disetujui</button>
+                        <button type="button" class="btn btn-danger" style="width: 223px; height: 40px; background-color: #A90704" @click="createReport">Kirim</button>
                     </div>
                 </div>
             </div>
@@ -222,15 +205,16 @@
 .dashboard-container-fluid-1 {
   background-color: #ffffff;
   margin-bottom: 36px;
-  height: 410px;
+  min-height: 410px;
   border-radius: 8px;
 }
 
 .dashboard-container-fluid-2 {
   background-color: #ffffff;
   margin-bottom: 36px;
-  height: 800px;
+  min-height: 500px;
   border-radius: 8px;
+  padding-bottom: 32px
 }
 
 .dashboard-section-title {

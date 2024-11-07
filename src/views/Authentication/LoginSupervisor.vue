@@ -1,16 +1,16 @@
 <template>
-    <div class="onboarding-container">
+    <div class="onboarding-container background-container" :style="backgroundImageStyle">
       <div class="onboarding-card card mx-auto">
         <div class="card-body text-center">
           <!-- Logo -->
           <img :src="logoUrl" alt="OJK Logo" class="logo mb-3" />
           <!-- Title -->
           <div class="mb-5">
-            <h5 class="card-title fw-light">Sistem Informasi Monitoring dan Tindak Lanjut</h5>
-            <h5 class="fw-bolder">(SIMANTUL)</h5>
+            <h5 class="card-title fw-light">Sistem Informasi Monitoring Tindak Lanjut Temuan Pemeriksaan</h5>
+            <h5 class="fw-bolder">(SIMANTAP)</h5>
           </div>
           <div class="text-start">
-            <h6 class="fw-bolder fs-5">Halaman Masuk Pengawas</h6>
+            <h6 class="fw-bolder fs-5">Masuk</h6>
             <p class="fw-light">Silakan pilih jenis akses Anda untuk melanjutkan proses.</p>
           </div>
           
@@ -43,6 +43,12 @@
                     email: '',
                     password: ''
                 }
+            },
+            backgroundImageStyle: {
+              backgroundImage: `linear-gradient(180deg, #A90704, #E38B8C), url(${new URL('@/assets/images/background_image.png', import.meta.url).href})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
             }
         }
     },
@@ -121,6 +127,11 @@
 .btn {
     width: 100%;
     height: 50px;
+}
+
+.background-container {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
 }
   </style>
   

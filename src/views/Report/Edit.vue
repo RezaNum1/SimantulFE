@@ -128,28 +128,42 @@
                                 class="form-control"
                             />
                         </div>
-
-                        <div class="col-sm text-start d-flex flex-column align-items-start">
-                            <label for="searchQuery" class="form-label">Status</label>
-                            <select class="form-select" style="margin-bottom: 20px;" v-model="model.report.statusInput">
-                                <option value="1">Dalam Proses</option>
-                                <option value="2">Belum Review</option>
-                                <option value="99">Pending</option>
-                                <option value="3">Selesai</option>
-                            </select>
-                        </div>
                     </div>
                 </div>
-
-                <label for="floatingTextarea2" style="margin-bottom: 4px;">Pemeriksa</label>
-                <select class="form-select" v-model="model.report.leaderID">
-                    <option v-for="leader in model.leaders" :key="leader.name" :value="leader.id">
-                        {{ leader.name }}
-                    </option>
-                </select>
             </div>
         </div>
     </div>
+
+    <div class="dashboard-container-fluid-table" v-show="model.rejectedHistories.length > 0">
+        <div>
+            <div class="dashboard-section-title">
+                <h4 class="">History Penolakan</h4>
+            </div>
+            <div class="dashboard-container-form" style="margin-top: 32px;">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table" style="text-align: left;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Deskripsi Penolakan</th>
+                                    <th>Otoritas</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="model.rejectedHistories.length > 0">
+                                <tr v-for="(history, index) in model.rejectedHistories" :key="index">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ history.description }}</td>
+                                    <td>{{ getAuthority(history.rejectedStep) }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button type="button" @click="openModal" class="btn btn-submit" style="margin-top: 0px; margin-bottom: 100px; height: 40px;width: 141px;border-radius: 4px;">Kirim</button>
     
 
@@ -215,6 +229,14 @@ margin-top: 20px;
 margin-bottom: 16px;
 }
 
+.dashboard-container-fluid-table {
+background-color: #ffffff;
+min-height: 200px;
+border-radius: 8px;
+padding-bottom: 32px;
+margin-bottom: 32px;
+}
+
 .dashboard-container-form {
 padding-left: 24px;
 padding-right: 24px;
@@ -223,15 +245,16 @@ padding-right: 24px;
 .dashboard-container-fluid-1 {
 background-color: #ffffff;
 margin-bottom: 36px;
-height: 410px;
+min-height: 410px;
 border-radius: 8px;
 }
 
 .dashboard-container-fluid-2 {
 background-color: #ffffff;
 margin-bottom: 36px;
-height: 800px;
+min-height: 300px;
 border-radius: 8px;
+padding-bottom: 32px;
 }
 
 .dashboard-section-title {
@@ -291,7 +314,8 @@ data(){
                 prevStatus: 0,
             },
             banks: [],
-            leaders: []
+            leaders: [],
+            rejectedHistories: []
         }
     }
 },
@@ -304,11 +328,29 @@ methods: {
     async getReport(reportId) {
             try {
                 const response = await axiosInstance.get(`/api/report/${reportId}`)
+                const histories = await axiosInstance.get(`/api/reason/all/${reportId}`)
                 console.log(response.data.data)
                 this.model.report = response.data.data
                 this.model.leaderID = response.data.data.leader.ID
+                this.model.rejectedHistories = histories.data.data
+                this.model.report.tanggalPemeriksaanInput = this.formatDate(this.model.report.tanggalPemeriksaan)
+                this.model.report.targetPenyelesaianInput = this.formatDate(this.model.report.targetPenyelesaian)
             } catch (error) {
                 console.log('Error fetching data:', error)
+            }
+        },
+        getAuthority(step) {
+            switch (step) {
+                case 0:
+                case 3:
+                case 5:
+                case 8:
+                    return "Reviewer"
+                case 2:
+                case 6:
+                    return "Pengawas"
+                default:
+                    "-"
             }
         },
     openModal() {
@@ -414,6 +456,14 @@ methods: {
         
         return isoFormatted;
     },
+    formatDate(dateString) {
+            // Create a new Date object and format it as YYYY-MM-DD
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 }
 }
 </script>

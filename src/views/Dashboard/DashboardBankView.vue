@@ -8,7 +8,51 @@
                     <h4 class="">Kelola Bank</h4>
                 </div>
                 <p class="finding-section-text">Untuk menambah akses pengguna, silakan tekan tombol di bawah ini.</p>
-                <button @click="onTapAddUser" class="btn btn-outline-danger add-record-btn"><i class="material-icons">add</i>Tambah Pengguna</button>
+                <button @click="onTapAddBank" class="btn btn-outline-danger add-record-btn"><i class="material-icons">add</i>Tambah Bank</button>
+            </div>
+        </div>
+
+        <div class="container d-flex h-100 flex-column" style="margin-top: 10px; margin-bottom: 20px">
+            <div class="row flex-fill d-flex">
+                    <div class="col-sm text-center d-flex align-items-center justify-content-center">
+                        <input
+                        v-model="searchQuery"
+                        type="text"
+                        placeholder="Cari"
+                        class="form-control"
+                        />
+                    </div>
+                </div>
+            </div>
+
+        <div class="card">
+            <div class="card-body">
+                <table class="table" style="text-align: center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>No</th>
+                            <th>Bank</th>
+                            <th>Alamat</th>
+                            <th>Aksi</th>             
+                        </tr>
+                    </thead>
+                    <tbody v-if="filteredBanks.length > 0">
+                        <tr v-for="(bank, index) in filteredBanks" :key="index">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ bank.bank }}</td>
+                            <td>{{ bank.address }}</td>  
+                            <td>
+                                <button type="button" @click="onTapDelete" class="btn btn-reject">Hapus</button>
+                                <button type="button" @click="onTapEdit" class="btn btn-accept">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- <tbody v-else>
+                        <tr>
+                            <td colspan="7">Loading...</td>
+                        </tr>
+                    </tbody> -->
+                </table>
             </div>
         </div>
         
@@ -68,20 +112,17 @@ export default {
         userType() {
             return localStorage.getItem('userType')
         },
-        filteredUsers() {
-            return this.users.filter(user => {
+        filteredBanks() {
+            return this.banks.filter(bank => {
                 // Adjust fields based on what you want to search by
                 const fieldsToSearch = [
-                user.nip,
-                user.nama,
-                user.jabatan,
-                user.status,
-                user.email,
+                bank.bank,
+                bank.address,
                 ];
                 
                 // Join all fields to search in a single query
                 return fieldsToSearch.some(field => 
-                field && field.toString().toLowerCase().includes(this.searchQuery.toLowerCase() || this.nameQuery.toLowerCase() || this.statusQuery.toLowerCase())
+                field && field.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
                 );
             });
         }
@@ -97,11 +138,10 @@ export default {
                 name: "",
                 address: ""
             },
-            users: [],
+            banks: [],
         }
     },
     mounted(){
-        this.getUsers()
         this.getBanks();
     },
     methods: {
@@ -109,26 +149,9 @@ export default {
             try {
                 const response = await axiosInstance.get('/api/bank')
                 this.banks = response.data.data
-            } catch (error) {
-                console.log('Error fetching data:', error)
-            }
-        },
-        async getUsers() {
-            try {
-                const response = await axiosInstance.get('/api/user')
                 console.log(response.data.data)
-                this.users = response.data.data
             } catch (error) {
                 console.log('Error fetching data:', error)
-            }
-        },
-        getUserText(status) {
-            if (status == '1') {
-                return 'Pengawas'
-            } else if (status == '2') {
-                return 'Bank'
-            } else if (status == '99') {
-                return 'Reviewer'
             }
         },
         async submitForm() {
@@ -146,28 +169,15 @@ export default {
         closeModal() {
             this.showModal = false;
         },
-        onTapAddUser() {
-            this.createForm = {
-                status: "",
-                nama: "",
-                nip: "",
-                jabatan: "",
-                email: "",
-                noHandphone: "",
-                bankId: "",
-                password: ""
-            },
+        onTapAddBank() {
             this.showModal = true;
         },
         onTapEdit() {
-            this.showModal = true;
+            alert('Edit Button Tapped!')
         },
         onTapDelete() {
-            this.$router.push('/report/create')
-        },
-        goToViewForm(id) {
-            this.$router.push(`/report/${id}/readForm`)
-        },
+            alert('Delete Button Tapped!')
+        }
     }
 }
 </script>

@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
+  <header v-show="isLoggedIn">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <div class="wrapper">
       <nav class="navbar navbar-expand-lg main-navbar">
@@ -28,7 +28,7 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
   </header>
 
-  <div class="sidenav">
+  <div class="sidenav" v-show="isLoggedIn">
     <div class="image-with-text">
       <img :src="profileLogo" alt="Image Description" class="profile-icon">
       <p class="profile-text">{{ name }}</p>
@@ -44,7 +44,7 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
 
     <div class="sidenav-btn-wrapper" v-show="userType == '3'">
-      <img :src="dashboardLogo" alt="Image Description" class="sidenav-btn-icon">
+      <img :src="rincianTemuanLogo" alt="Image Description" class="sidenav-btn-icon">
       <RouterLink class="sidenav-btn-text" to="/dashboard/bank">Kelola Bank</RouterLink>
     </div>
 
@@ -59,12 +59,21 @@ import { RouterLink, RouterView } from 'vue-router'
     </div>
     <!-- <a href="#about">About</a> -->
   </div>
-  <RouterView class="router-view"/>
+  <RouterView v-show="isLoggedIn" class="router-view"/>
+  <RouterView v-show="!isLoggedIn"/>
 </template>
 
 <script>
+import { reactive, watch } from 'vue';
+
+const state = reactive({
+  accessToken: '',
+});
 export default {
   computed: {
+        isLoggedIn() {
+          return !!localStorage.getItem('accessToken');
+        },
         profileLogo() {
             return new URL('@/assets/images/Icon_Profile.svg', import.meta.url).href;
         },

@@ -184,7 +184,7 @@ padding-right: 24px;
 .dashboard-container-fluid {
 background-color: #ffffff;
 margin-bottom: 36px;
-height: 1300px;
+min-height: 1000px;
 border-radius: 8px;
 }
 
